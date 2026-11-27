@@ -136,9 +136,9 @@ button {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 340px;
+  max-height: 320px;
   object-fit: cover;
-  object-position: center 58%;
+  object-position: center;
 }
 
 /* Series Navigation Bar */
