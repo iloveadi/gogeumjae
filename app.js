@@ -1,5 +1,5 @@
 // Google Analytics 4 측정 ID (예: "G-XXXXXXXXXX")를 입력하면 방문자 및 글별 열람 통계가 자동 기록됩니다.
-const GA_MEASUREMENT_ID = "";
+const GA_MEASUREMENT_ID = "G-GRHSC6JWQC";
 
 const BLOGS = [
   {
