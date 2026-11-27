@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>고금재(古今齋) — 옛것과 오늘을 잇는 서재</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="site-wrap">
+    <!-- 상단 제호(Masthead) -->
+    <header class="masthead">
+      <div class="masthead-utility">
+        <span id="todayDate" class="utility-date"></span>
+        <span class="utility-sep">·</span>
+        <span id="totalIssueText" class="utility-count">고금재의 기록을 모으는 중…</span>
+        <div class="utility-actions">
+          <button id="toggleSearchBtn" class="icon-text-btn" type="button" aria-expanded="false">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="7" cy="7" r="4.75" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M10.5 10.5L13.75 13.75" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            <span>검색</span>
+          </button>
+          <button id="refreshBtn" class="icon-text-btn" type="button" title="최신 글 다시 불러오기">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M13.5 8a5.5 5.5 0 1 1-1.35-3.6M13.5 2.75v2.75h-2.75" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>새로고침</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="masthead-banner-wrap">
+        <button id="homeLogoBtn" class="banner-btn" type="button" title="첫 화면으로 돌아가기">
+          <img
+            class="masthead-banner"
+            src="./assets/gogeumjae-banner.jpg"
+            alt="고금재(古今齋) — 옛것과 오늘을 잇는 서재"
+          />
+        </button>
+      </div>
+
+      <!-- 6개 연재 네비게이션 바 -->
+      <nav class="series-nav" aria-label="연재 블로그 목차">
+        <div id="seriesNavList" class="series-nav__list"></div>
+      </nav>
+
+      <!-- 접이식 검색 & 태그 바 -->
+      <div id="searchDrawer" class="search-drawer" hidden>
+        <div class="search-drawer__inner">
+          <div class="search-input-wrap">
+            <svg class="search-svg" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="7" cy="7" r="4.75" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M10.5 10.5L13.75 13.75" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="제목, 본문, 인물, 지명, 태그로 찾아보기…"
+              autocomplete="off"
+            />
+            <button id="clearSearchBtn" class="clear-btn" type="button" hidden aria-label="지우기">✕</button>
+          </div>
+          <select id="sortSelect" class="sort-select" aria-label="정렬">
+            <option value="newest">최신순</option>
+            <option value="oldest">오래된순</option>
+            <option value="title">제목순</option>
+          </select>
+        </div>
+        <div id="tagBar" class="tag-bar" aria-label="주제 태그"></div>
+      </div>
+    </header>
+
+    <!-- 메인 매거진 본문 -->
+    <main id="mainView" class="main-view">
+      <div class="loading-curtain">
+        <div class="loading-line" aria-hidden="true"></div>
+        <p>고금재의 최신 원고를 펼치고 있습니다…</p>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <strong>고금재(古今齋)</strong>
+          <span>옛것과 오늘을 잇는 서재 · 각 블로그의 기록이 한 권의 잡지처럼 어우러지는 공간</span>
+        </div>
+        <div id="footerLinks" class="footer-links"></div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 매거진 풀 리더 (Reader View) -->
+  <div id="readerModal" class="reader-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="readerTitle">
+    <div class="reader-shell" id="readerShell">
+      <header class="reader-topbar">
+        <button id="closeReaderBtn" class="reader-back-btn" type="button">
+          ← 목차로 돌아가기
+        </button>
+
+        <div class="reader-controls">
+          <div class="font-size-group" role="group" aria-label="글자 크기">
+            <button class="rc-btn" data-font="sm" type="button">가</button>
+            <button class="rc-btn is-active" data-font="md" type="button">가</button>
+            <button class="rc-btn" data-font="lg" type="button">가</button>
+          </div>
+          <button id="readerThemeBtn" class="rc-btn rc-btn--theme" type="button" title="읽기 배경 전환">
+            야간 모드
+          </button>
+          <a id="readerOriginalLink" class="reader-ext-btn" href="#" target="_blank" rel="noopener noreferrer">
+            원문 보기 ↗
+          </a>
+        </div>
+      </header>
+
+      <div class="reader-scroll" id="readerScroll">
+        <article class="reader-paper">
+          <div class="reader-meta">
+            <span id="readerSeriesTag" class="series-pill"></span>
+            <time id="readerDate" class="reader-date"></time>
+          </div>
+          <h1 id="readerTitle" class="reader-title"></h1>
+          <div id="readerTags" class="reader-tags"></div>
+          <div id="readerBody" class="reader-body"></div>
+
+          <!-- 이전/다음 글 및 같은 연재 추천 -->
+          <nav class="reader-footer-nav" aria-label="글 이동">
+            <button id="prevPostBtn" class="nav-post-btn" type="button" hidden>
+              <span class="nav-post-dir">← 이전 글</span>
+              <span id="prevPostTitle" class="nav-post-title"></span>
+            </button>
+            <button id="nextPostBtn" class="nav-post-btn nav-post-btn--next" type="button" hidden>
+              <span class="nav-post-dir">다음 글 →</span>
+              <span id="nextPostTitle" class="nav-post-title"></span>
+            </button>
+          </nav>
+
+          <section id="readerRelated" class="reader-related"></section>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
