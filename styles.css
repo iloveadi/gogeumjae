@@ -993,6 +993,44 @@ button {
   text-underline-offset: 3px;
 }
 
+.reader-origin-cta {
+  margin-top: 40px;
+  padding: 18px 20px;
+  border: 1px solid var(--r-rule);
+  border-radius: 6px;
+  background: rgba(128, 128, 128, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.origin-cta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1 1 280px;
+}
+
+.origin-cta-text strong {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--r-ink);
+}
+
+.origin-cta-text span {
+  font-size: 13px;
+  color: var(--r-muted);
+}
+
+.origin-cta-btn {
+  background: var(--r-ink);
+  color: var(--r-bg);
+  border-color: var(--r-ink);
+  white-space: nowrap;
+}
+
 /* Reader Bottom Navigation */
 .reader-footer-nav {
   margin-top: 48px;

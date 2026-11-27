@@ -1,3 +1,6 @@
+// Google Analytics 4 측정 ID (예: "G-XXXXXXXXXX")를 입력하면 방문자 및 글별 열람 통계가 자동 기록됩니다.
+const GA_MEASUREMENT_ID = "";
+
 const BLOGS = [
   {
     id: "hanjeom",
@@ -89,12 +92,38 @@ const els = {
   readerTitle: document.getElementById("readerTitle"),
   readerTags: document.getElementById("readerTags"),
   readerBody: document.getElementById("readerBody"),
+  readerOriginBlogName: document.getElementById("readerOriginBlogName"),
+  readerOriginCtaLink: document.getElementById("readerOriginCtaLink"),
   prevPostBtn: document.getElementById("prevPostBtn"),
   prevPostTitle: document.getElementById("prevPostTitle"),
   nextPostBtn: document.getElementById("nextPostBtn"),
   nextPostTitle: document.getElementById("nextPostTitle"),
   readerRelated: document.getElementById("readerRelated"),
 };
+
+function initAnalytics() {
+  if (!GA_MEASUREMENT_ID) return;
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA_MEASUREMENT_ID)}`;
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag("js", new Date());
+  window.gtag("config", GA_MEASUREMENT_ID);
+}
+
+function trackPostRead(post) {
+  if (typeof window.gtag !== "function") return;
+  window.gtag("event", "post_read", {
+    blog_name: post.blogName,
+    post_title: post.title,
+    post_url: post.url,
+  });
+}
 
 function initHeaderMeta() {
   const now = new Date();
@@ -564,6 +593,9 @@ function openReader(uid) {
 
   els.readerBody.innerHTML = cleanArticleHtml(post.rawHtml) || `<p>${escapeHtml(post.excerpt)}</p>`;
   els.readerOriginalLink.href = post.url;
+  els.readerOriginBlogName.textContent = `「${post.blogName}」 원문`;
+  els.readerOriginCtaLink.href = post.url;
+  trackPostRead(post);
 
   // Prev / Next within the current list
   const list = getFilteredPosts();
@@ -731,5 +763,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !els.readerModal.hidden) closeReader();
 });
 
+initAnalytics();
 initHeaderMeta();
 loadAllFeeds();
