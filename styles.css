@@ -103,8 +103,10 @@ button {
   font-size: 12.5px;
   font-weight: 600;
   cursor: pointer;
-  padding: 3px 6px;
+  padding: 4px 7px;
   border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .icon-text-btn:hover {
@@ -1194,11 +1196,74 @@ button {
 
 @media (max-width: 640px) {
   .site-wrap {
-    padding: 14px 16px 56px;
+    padding: 12px 14px 52px;
+  }
+
+  .masthead {
+    margin-bottom: 22px;
+  }
+
+  .masthead-utility {
+    flex-wrap: wrap;
+    row-gap: 4px;
+    padding-bottom: 10px;
+  }
+
+  .utility-date {
+    white-space: nowrap;
+  }
+
+  .utility-count {
+    order: 3;
+    flex-basis: 100%;
+    font-size: 11.5px;
+  }
+
+  .utility-sep {
+    display: none;
+  }
+
+  .masthead-banner-wrap {
+    padding: 12px 0;
   }
 
   .masthead-banner {
     max-height: none;
+  }
+
+  .series-nav {
+    padding: 8px 0;
+  }
+
+  .series-nav__list {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 6px;
+    padding-bottom: 2px;
+  }
+
+  .series-nav__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .series-nav-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .hero-spread {
+    gap: 22px;
+    padding-bottom: 26px;
+    margin-bottom: 28px;
+  }
+
+  .pick-item__thumb {
+    width: 110px;
   }
 
   .series-lead,
@@ -1213,10 +1278,22 @@ button {
   }
 
   .reader-topbar {
-    padding: 10px 14px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .reader-back-btn,
+  .reader-ext-btn,
+  .rc-btn {
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  .reader-controls {
+    gap: 6px;
   }
 
   .reader-scroll {
-    padding: 26px 16px 64px;
+    padding: 24px 16px 64px;
   }
 }
