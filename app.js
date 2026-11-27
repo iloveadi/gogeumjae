@@ -81,6 +81,9 @@ const els = {
   homeLogoBtn: document.getElementById("homeLogoBtn"),
   mainView: document.getElementById("mainView"),
   footerLinks: document.getElementById("footerLinks"),
+  privacyInfoBtn: document.getElementById("privacyInfoBtn"),
+  visitCounterWrap: document.getElementById("visitCounterWrap"),
+  visitCountValue: document.getElementById("visitCountValue"),
   readerModal: document.getElementById("readerModal"),
   readerShell: document.getElementById("readerShell"),
   readerScroll: document.getElementById("readerScroll"),
@@ -131,8 +134,29 @@ function initHeaderMeta() {
   els.todayDate.textContent = `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일 (${weekdays[now.getDay()]})`;
 
   els.footerLinks.innerHTML = BLOGS.map(
-    (b) => `<a href="${escapeHtml(b.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(b.name)} ↗</a>`
-  ).join("");
+    (b) => `<a href="${escapeHtml(b.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(b.name)}</a>`
+  ).join(`<span class="footer-sep" aria-hidden="true">·</span>`);
+}
+
+async function initVisitCounter() {
+  try {
+    const visitedKey = "gogeumjae_visited";
+    const alreadyCounted = sessionStorage.getItem(visitedKey) === "1";
+    const endpoint = alreadyCounted
+      ? "https://abacus.jasoncameron.dev/get/iloveadi-gogeumjae/visits"
+      : "https://abacus.jasoncameron.dev/hit/iloveadi-gogeumjae/visits";
+
+    const res = await fetch(endpoint, { cache: "no-store" });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (typeof data?.value === "number" && data.value >= 0) {
+      sessionStorage.setItem(visitedKey, "1");
+      els.visitCountValue.textContent = data.value.toLocaleString("ko-KR");
+      els.visitCounterWrap.hidden = false;
+    }
+  } catch {
+    // Keep counter hidden if network/counter service is unavailable
+  }
 }
 
 function fetchJsonp(url, timeoutMs = 15000) {
@@ -737,6 +761,28 @@ els.mainView.addEventListener("click", (e) => {
 els.refreshBtn.addEventListener("click", loadAllFeeds);
 els.closeReaderBtn.addEventListener("click", closeReader);
 
+els.privacyInfoBtn.addEventListener("click", () => {
+  els.readerSeriesTag.className = "series-pill";
+  els.readerSeriesTag.textContent = "고금재 안내";
+  els.readerDate.textContent = "";
+  els.readerTitle.textContent = "개인정보처리방침";
+  els.readerTags.innerHTML = "";
+  els.readerBody.innerHTML = `
+    <p><strong>고금재(古今齋)</strong>는 별도의 회원가입이나 개인정보를 직접 수집·저장하지 않습니다.</p>
+    <p>다만 방문 통계 및 인기 글 파악을 위해 Google Analytics(GA4)를 사용하고 있으며, 이 과정에서 익명화된 접속 통계 쿠키가 사용될 수 있습니다. 브라우저 설정을 통해 쿠키 저장을 거부하거나 삭제하실 수 있습니다.</p>
+    <p>각 글의 원문과 댓글 관리는 연결된 개별 블로그스팟(Blogspot) 페이지의 정책을 따릅니다.</p>
+  `;
+  els.readerOriginalLink.href = "https://github.com/iloveadi/gogeumjae";
+  els.readerOriginBlogName.textContent = "고금재(古今齋)";
+  els.readerOriginCtaLink.href = "https://hanjeom-siseon.blogspot.com/";
+  els.prevPostBtn.hidden = true;
+  els.nextPostBtn.hidden = true;
+  els.readerRelated.innerHTML = "";
+  els.readerModal.hidden = false;
+  els.readerScroll.scrollTop = 0;
+  document.body.style.overflow = "hidden";
+});
+
 els.readerModal.addEventListener("click", (e) => {
   const jump = e.target.closest("[data-jump-uid]");
   if (jump) {
@@ -765,4 +811,5 @@ document.addEventListener("keydown", (e) => {
 
 initAnalytics();
 initHeaderMeta();
+initVisitCounter();
 loadAllFeeds();
