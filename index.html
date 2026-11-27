@@ -39,11 +39,14 @@
 
       <div class="masthead-banner-wrap">
         <button id="homeLogoBtn" class="banner-btn" type="button" title="첫 화면으로 돌아가기">
-          <img
-            class="masthead-banner"
-            src="./assets/gogeumjae-banner.jpg"
-            alt="고금재(古今齋) — 옛것과 오늘을 잇는 서재"
-          />
+          <picture>
+            <source media="(max-width: 640px)" srcset="./assets/gogeumjae-banner-mobile.jpg" />
+            <img
+              class="masthead-banner"
+              src="./assets/gogeumjae-banner.jpg"
+              alt="고금재(古今齋) — 옛것과 오늘을 잇는 서재"
+            />
+          </picture>
         </button>
       </div>
 

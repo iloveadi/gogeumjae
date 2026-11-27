@@ -1110,6 +1110,10 @@ button {
     padding: 14px 16px 56px;
   }
 
+  .masthead-banner {
+    max-height: none;
+  }
+
   .series-lead,
   .editorial-grid,
   .reader-footer-nav {
