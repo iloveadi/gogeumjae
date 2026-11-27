@@ -95,6 +95,7 @@ const els = {
   readerTitle: document.getElementById("readerTitle"),
   readerTags: document.getElementById("readerTags"),
   readerBody: document.getElementById("readerBody"),
+  readerOriginCta: document.getElementById("readerOriginCta"),
   readerOriginBlogName: document.getElementById("readerOriginBlogName"),
   readerOriginCtaLink: document.getElementById("readerOriginCtaLink"),
   prevPostBtn: document.getElementById("prevPostBtn"),
@@ -616,7 +617,9 @@ function openReader(uid) {
     .join("");
 
   els.readerBody.innerHTML = cleanArticleHtml(post.rawHtml) || `<p>${escapeHtml(post.excerpt)}</p>`;
+  els.readerOriginalLink.hidden = false;
   els.readerOriginalLink.href = post.url;
+  els.readerOriginCta.hidden = false;
   els.readerOriginBlogName.textContent = `「${post.blogName}」 원문`;
   els.readerOriginCtaLink.href = post.url;
   trackPostRead(post);
@@ -772,9 +775,8 @@ els.privacyInfoBtn.addEventListener("click", () => {
     <p>다만 방문 통계 및 인기 글 파악을 위해 Google Analytics(GA4)를 사용하고 있으며, 이 과정에서 익명화된 접속 통계 쿠키가 사용될 수 있습니다. 브라우저 설정을 통해 쿠키 저장을 거부하거나 삭제하실 수 있습니다.</p>
     <p>각 글의 원문과 댓글 관리는 연결된 개별 블로그스팟(Blogspot) 페이지의 정책을 따릅니다.</p>
   `;
-  els.readerOriginalLink.href = "https://github.com/iloveadi/gogeumjae";
-  els.readerOriginBlogName.textContent = "고금재(古今齋)";
-  els.readerOriginCtaLink.href = "https://hanjeom-siseon.blogspot.com/";
+  els.readerOriginalLink.hidden = true;
+  els.readerOriginCta.hidden = true;
   els.prevPostBtn.hidden = true;
   els.nextPostBtn.hidden = true;
   els.readerRelated.innerHTML = "";
